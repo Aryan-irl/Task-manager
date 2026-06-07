@@ -20,11 +20,14 @@ app.use((req, res, next) => {
 
 // API Routes
 app.use('/api/tasks', taskRoutes);
+app.use('/tasks', taskRoutes); // Fallback if API URL has no /api suffix
 
 // Health check endpoint
-app.get('/api/health', (req, res) => {
+const healthCheck = (req, res) => {
   res.json({ status: 'ok', message: 'Task Manager API is running smoothly' });
-});
+};
+app.get('/api/health', healthCheck);
+app.get('/health', healthCheck);
 
 // Catch-all route for unhandled endpoints
 app.use((req, res, next) => {
